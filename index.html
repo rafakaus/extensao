@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>App de Viagem</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      background-color: #ddd;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    input[type="text"], input[type="date"] {
+      width: 90%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .data-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .data-box {
+      width: 48%;
+      text-align: left;
+    }
+
+    .data-box label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .confirmar {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 24px;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    .results {
+      margin-top: 30px;
+      text-align: left;
+    }
+
+    .result-item {
+      background-color: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .result-item h4 {
+      margin: 0 0 8px;
+    }
+
+    .menu {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      padding: 10px 0;
+      border-top: 1px solid #ccc;
+    }
+
+    .menu div {
+      background-color: #e0e0e0;
+      padding: 10px;
+      border-radius: 8px;
+      flex: 1;
+      margin: 0 5px;
+      font-size: 14px;
+    }
+
+    .menu .ativo {
+      background-color: #4CAF50;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="logo.png" alt="Logo Minhas Passagens" class="logo">
+
+    <input type="text" id="origem" placeholder="origem">
+    <input type="text" id="destino" placeholder="destino">
+
+    <div class="data-container">
+      <div class="data-box">
+        <label for="ida">Ida</label>
+        <input type="date" id="ida" name="ida">
+      </div>
+      <div class="data-box">
+        <label for="volta">Volta</label>
+        <input type="date" id="volta" name="volta">
+      </div>
+    </div>
+
+    <button class="confirmar" onclick="buscarPassagens()">✓</button>
+
+    <div id="resultado" class="results"></div>
+
+    <div class="menu">
+      <div class="ativo">inicio</div>
+      <div><a href="passagens.html" style="text-decoration: none; color: inherit;">minhas passagens</a></div>
+      <div><a href="cashback.html" style="text-decoration: none; color: inherit;">cashback</a></div>
+      <div><a href="perfil.html" target="_blank" style="text-decoration: none; color: inherit;">conta</a></div>
+    </div>
+  </div>
+
+  <script>
+    function buscarPassagens() {
+      const origem = document.getElementById("origem").value.trim();
+      const destino = document.getElementById("destino").value.trim();
+      const ida = document.getElementById("ida").value;
+
+      const resultado = document.getElementById("resultado");
+      resultado.innerHTML = ""; // Limpa antes
+
+      if (!origem || !destino || !ida) {
+        alert("Preencha origem, destino e data de ida.");
+        return;
+      }
+
+      const passagens = [
+        {
+          site: "ClickBus",
+          preco: "R$ 89,90",
+          horario: "08:00",
+          link: "#"
+        },
+        {
+          site: "Buser",
+          preco: "R$ 74,50",
+          horario: "09:30",
+          link: "#"
+        },
+        {
+          site: "123Milhas",
+          preco: "R$ 189,00",
+          horario: "10:15",
+          link: "#"
+        },
+        {
+          site: "ViajaNet",
+          preco: "R$ 199,99",
+          horario: "11:00",
+          link: "#"
+        }
+      ];
+
+      resultado.innerHTML = `<h3>Passagens de ${origem} para ${destino} em ${ida}:</h3>`;
+
+      passagens.forEach(p => {
+        const item = document.createElement("div");
+        item.className = "result-item";
+        item.innerHTML = `
+          <h4>${p.site}</h4>
+          <p><strong>Horário:</strong> ${p.horario}</p>
+          <p><strong>Preço:</strong> ${p.preco}</p>
+          <button onclick="verDetalhes('${p.site}')">Ver Detalhes</button>
+        `;
+        resultado.appendChild(item);
+      });
+    }
+
+    function verDetalhes(site) {
+      alert(`Aqui você veria os detalhes da passagem pelo site ${site}.`);
+      // Aqui você poderia mostrar modal, ou redirect, ou expandir mais info.
+    }
+  </script>
+
+</body>
+</html>
